@@ -1,0 +1,99 @@
+# Comments begin with a #
+# Seperate pieces with ---
+# Begin images blocks with %%%
+
+---
+
+Piece 001
+**King**
+Emperor
+Cost 0
+
+- **Castling**
+- Moves one square in any one direction.
+
+%%%
+
+B: https://cdn.discordapp.com/attachments/1535462729790267412/1535462729962356788/King_Black.png?ex=6a8c49da&is=6a8af85a&hm=8248a34e6e4225a8c805532c30a775434d8431e8bbc017870e7edc813cfcdabe&
+W: https://cdn.discordapp.com/attachments/1535462729790267412/1535462730486775808/King_White.png?ex=6a8af85a&is=6a89a6da&hm=f57f39575665084804db3c42311f5ee47fe24acb8203db926e98e5fc27058de1&
+
+---
+
+Piece 002
+**Queen**
+Tier 3
+Cost 12
+
+- **Promoption**
+- Moves any number of squares in any one direction.
+
+%%%
+
+B: https://cdn.discordapp.com/attachments/1535624813325066321/1535624813538844753/Queen_Black.png?ex=6a8ae68e&is=6a89950e&hm=0f7c7596179ee511fd58a79013701e5f2c883e48a47d2dd862b2c855e5b7d321&
+W: https://cdn.discordapp.com/attachments/1535624813325066321/1535624814029438976/Queen_White.png?ex=6a8ae68e&is=6a89950e&hm=4e687464f70092f8c87bd3aaf39ae5136ee108adb78aac5a45c43a73b6ad3b1c&
+
+---
+
+Piece 003
+**Rook**
+Tier 2
+Cost 8
+
+- **Castling**, **Promoption**
+- Moves any number of squares orthogonally in one direction.
+
+%%%
+
+B: https://cdn.discordapp.com/attachments/1535625047979331584/1535625048184987689/Rook_Black.png?ex=6a8ae6c6&is=6a899546&hm=5bcfc4a021090fa5e899d87ed1f34cbee4e61e32af098541675ab08b38188276&
+W: https://cdn.discordapp.com/attachments/1535625047979331584/1535625048612667443/Rook_White.png?ex=6a8ae6c6&is=6a899546&hm=f4957e4ac4aad812a08ea58f0bca41732b68169ae7aadb6e816f7461f8d00ee8&
+
+---
+
+Piece 004
+**Bishop**
+Tier 2
+Cost 6
+
+- **Promoption**
+- Moves any number of squares diagonally in one direction.
+
+%%%
+
+B: https://cdn.discordapp.com/attachments/1535625170792874124/1535625171153723464/Bishop_Black.png?ex=6a8ae6e3&is=6a899563&hm=10bddfe9030dd30177dbca692a9e784d0f220815a1674da690c0f81f37cb7293&
+W: https://cdn.discordapp.com/attachments/1535625170792874124/1535625171665162320/Bishop_White.png?ex=6a8ae6e3&is=6a899563&hm=58fbc47f6e5170e3605d259367553a2f1870e903b12d38e992dc4281937c2735&
+
+---
+
+Piece 005
+**Knight**
+Tier 2
+Cost 4
+
+- **Horse**, **Jumping**, **Promoption**
+- Moves to a square diagonally outward from a square orthogonally adjacent to itself.
+
+%%%
+
+B: https://cdn.discordapp.com/attachments/1535625596942426175/1535625597315981403/Knight_Black.png?ex=6a8ae748&is=6a8995c8&hm=d51e9ac8b550d0ab6ca755e257d2313514a4d707c0ad9e6b3cbf6599bdd74ba1&
+W: https://cdn.discordapp.com/attachments/1535625596942426175/1535625597793865838/Knight_White.png?ex=6a8ae749&is=6a8995c9&hm=86df4f584caa5359ee93a76047c6161a14286549cec471ed1e648cfdb52f5265&
+
+---
+
+Piece 006
+**Pawn**
+Tier 1
+Cost 1
+
+- **Promotable**
+- Moves 1 square forward (without capturing). The first time you move **Pawn**, you may move it two squares forward (without capturing) instead.
+- Captures 1 square diagonally forward.
+- **Pawn**s can perform *En Passant*.
+
+Mechanic Definitions:
+*En Passant*: The turn after a **Tier 1** piece that can move extra squares the first time it is moved moves that way, a piece able to perform *En Passant* that could have captured it had it moved its normal distance can capture it. The capturing piece moves to the square the other piece would have moved to had it moved its normal distance.
+
+%%%
+
+B: https://cdn.discordapp.com/attachments/1535630939764563968/1535630939961561118/Pawn_Black.png?ex=6a8aec42&is=6a899ac2&hm=9588e35558fc09442d9221e8619ea12d2808ddd3cd1d4f23dfe8e17e8c19a1c1&
+W: https://cdn.discordapp.com/attachments/1535630939764563968/1535630940540502097/Pawn_White.png?ex=6a8aec42&is=6a899ac2&hm=15477864e7a6c02c887efa439f7d52373bbdfc62d4d809f6e2ffb49f10b30bc1&
+
