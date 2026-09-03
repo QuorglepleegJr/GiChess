@@ -68,7 +68,7 @@ class MovementModule:
 
                 if valid_repetition_count and can_move and current_resolution[0] == len(vector_list) - 1:
 
-                    legal_moves.append((new_square[0], new_square[1], (f for f in functions)))
+                    legal_moves.append((new_square[0], new_square[1], tuple(functions)))
 
                 if not no_further or True in piece.get_attribute_values("jumping"):
 

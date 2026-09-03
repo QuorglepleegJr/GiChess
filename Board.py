@@ -218,8 +218,6 @@ class Board:
 
         self.game_state_hashes[h] += 1
 
-        # print(self.game_state_hashes)
-
         self.check_game_end()
 
         if self.to_move == "W":
@@ -358,16 +356,13 @@ class Board:
 
         for square in self.pieces.keys():
 
-            pieces.extend([(p[0], square, hash(p[1]), hash(frozenset(p[1].get_legal_moves(square, self)))) for p in self.pieces[square]])
+            pieces.extend([(self.pieces[square][i][0], (square[0], square[1], i), hash(self.pieces[square][i][1]), 
+                hash(frozenset(self.pieces[square][i][1].get_legal_moves(square, self)))) for i in range(len(self.pieces[square]))])
 
         hashables.append(frozenset(pieces))
 
         for l in (self.square_usable_funcs, self.square_blocks_movement_funcs, self.game_win_functions, self.game_lose_functions):
 
             hashables.append(frozenset(l))
-
-        hashables.append(self.to_move)
-    
-        # print(frozenset(hashables))
 
         return hash(frozenset(hashables))

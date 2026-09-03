@@ -252,7 +252,6 @@ if __name__ == "__main__":
                                 (clicked_square[0], clicked_square[1], valid_squares[clicked_square]))
                             sprite_piece, piece_sprite, piece_group = update_sprites(b)
 
-
                         if moveable_sprites and not clicked_square in valid_squares.keys():
 
                             # For now,just display the first one - in future, pop up menu for all if multiple
