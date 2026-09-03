@@ -120,24 +120,11 @@ class PieceDatabase:
                 file.readline()
                 number_line = file.readline()
                 name_line = file.readline()
+
                 tier_line = file.readline()
                 cost_line = file.readline()
 
                 line = file.readline()
-
-                description = ""
-
-                while line[0:3] != r"%%%":
-                    
-                    if line.strip() and line.strip()[0] == "-":
-
-                        description += line
-
-                    line = file.readline()
-
-                file.readline()
-                black_image_line = file.readline()
-                white_image_line = file.readline()
 
                 number = int(number_line[6:9])
                 name = name_line.split("**")[1]
@@ -152,22 +139,22 @@ class PieceDatabase:
 
                 cost = float(cost_line.strip()[5:])
 
-                #with urllib.request.urlopen(black_image_line.strip()[3:]) as black_image:
+                images = []
 
-                    #print("TEST")
+                if tier != "Relic":
 
-                    #print(black_image.read())
+                    images.append(name.replace(" ", "-") + "-B.png")
+                    images.append(name.replace(" ", "-") + "-W.png")
 
-                #white_image = urllib.request.urlopen(white_image_line.strip()[3:])
+                else:
 
-                black_image = "kingtemp.png"
-                white_image = "Drunk-Rook-W.png"
+                    images.append(name.replace(" ", "-") + ".png")
 
                 PieceDatabase.piece_display[number] = {
                     "name": name,
                     "tier": tier,
                     "cost": cost,
-                    "images": [black_image, white_image]
+                    "images": images
                 }
                 
 

@@ -1,4 +1,4 @@
-from AttributeModule import AttributeModule
+from .AttributeModule import AttributeModule
 
 class InternalAttributeModule(AttributeModule):
 

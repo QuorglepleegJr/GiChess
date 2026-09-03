@@ -27,7 +27,7 @@ class Board:
         self.to_move = "W"
         self.game_ended = None
 
-        self.game_state_hashes = {}
+        self.game_state_hashes = {hash(self): 1}
 
     def parse_setup_string(setup):
 
@@ -210,7 +210,15 @@ class Board:
         self.previous_move = move
         piece.moves += 1
 
+        h = hash(self)
 
+        if not h in self.game_state_hashes.keys():
+
+            self.game_state_hashes[h] = 0
+
+        self.game_state_hashes[h] += 1
+
+        # print(self.game_state_hashes)
 
         self.check_game_end()
 
@@ -224,6 +232,12 @@ class Board:
 
     def check_game_end(self):
 
+        for h in self.game_state_hashes.keys():
+
+            if self.game_state_hashes[h] > 2:
+
+                self.game_over(("N", ["repetition"]))
+
         wins = {}
 
         for func in self.game_win_functions:
@@ -236,7 +250,7 @@ class Board:
 
                 wins[result[0]].append[result[1]]
 
-        losses = {s : "by checkmate" for s in self.check_for_importance()}
+        losses = {s : ["checkmate"] for s in self.check_for_importance()}
 
         for func in self.game_lose_functions:
 
@@ -253,29 +267,43 @@ class Board:
 
         if has_won == 2 or has_lost == 2:
 
+            string_list = ["simultaneous wins or losses:"]
+
+            string_list.extend([s for s in wins.get("B", [])])
+            string_list.extend([s for s in wins.get("W", [])])
+            string_list.extend([s for s in losses.get("B", [])])
+            string_list.extend([s for s in losses.get("W", [])])
+
             # Both players lost or won simultaneously
-            self.game_over("N")
+            self.game_over(("N", string_list))
             return
 
-        if len(wins.intersection(losses)) != 0:
+        if len(set(wins.keys()).intersection(set(losses.keys()))) != 0:
+
+            string_list = ["simultaneous wins or losses:"]
+
+            string_list.extend([s for s in wins["B"]])
+            string_list.extend([s for s in wins["W"]])
+            string_list.extend([s for s in losses["B"]])
+            string_list.extend([s for s in losses["W"]])
 
             # One player both won and lost simultaneously
-            self.game_over("N") # FINISH
+            self.game_over(("N", string_list))
 
-            winner = wins.keys(0)
-            loser = losses.keys(0)
+            winner = list(wins.keys())[0]
+            loser = list(losses.keys())[0]
 
             return
 
         if has_won == 1:
 
-            winner = wins.keys()[0]
+            winner = list(wins.keys())[0]
             self.game_over((winner, wins[winner]))
             return
 
         if has_lost == 1:
 
-            loser = losses.keys()[0]
+            loser = list(losses.keys())[0]
 
             if loser == "W":
 
@@ -283,7 +311,7 @@ class Board:
 
             else:
 
-                self.game_over(("W", losses[loser])
+                self.game_over(("W", losses[loser]))
 
             return
 
@@ -293,7 +321,7 @@ class Board:
 
         if self.game_ended is None:
 
-            self.game_ended = "N"
+            self.game_ended = ("N", "")
 
     def check_for_importance(self):
 
@@ -326,14 +354,20 @@ class Board:
 
         hashables = []
 
+        pieces = []
+
         for square in self.pieces.keys():
 
-            hashables.extend([(p[0], hash(p[1]), hash((l for l in p[1].get_legal_moves()))) for p in self.pieces[square]])
+            pieces.extend([(p[0], square, hash(p[1]), hash(frozenset(p[1].get_legal_moves(square, self)))) for p in self.pieces[square]])
+
+        hashables.append(frozenset(pieces))
 
         for l in (self.square_usable_funcs, self.square_blocks_movement_funcs, self.game_win_functions, self.game_lose_functions):
 
-            hashables.append((f for f in l))
+            hashables.append(frozenset(l))
 
         hashables.append(self.to_move)
+    
+        # print(frozenset(hashables))
 
-        return hash((h for h in hashables))
+        return hash(frozenset(hashables))

@@ -1,7 +1,3 @@
-# Comments begin with a #
-# Seperate pieces with ---
-# Begin images blocks with %%%
-
 ---
 
 Piece 001
@@ -11,11 +7,6 @@ Cost 0
 
 - **Castling**
 - Moves one square in any one direction.
-
-%%%
-
-B: https://cdn.discordapp.com/attachments/1535462729790267412/1535462729962356788/King_Black.png?ex=6a8c49da&is=6a8af85a&hm=8248a34e6e4225a8c805532c30a775434d8431e8bbc017870e7edc813cfcdabe&
-W: https://cdn.discordapp.com/attachments/1535462729790267412/1535462730486775808/King_White.png?ex=6a8af85a&is=6a89a6da&hm=f57f39575665084804db3c42311f5ee47fe24acb8203db926e98e5fc27058de1&
 
 ---
 
@@ -27,11 +18,6 @@ Cost 12
 - **Promoption**
 - Moves any number of squares in any one direction.
 
-%%%
-
-B: https://cdn.discordapp.com/attachments/1535624813325066321/1535624813538844753/Queen_Black.png?ex=6a8ae68e&is=6a89950e&hm=0f7c7596179ee511fd58a79013701e5f2c883e48a47d2dd862b2c855e5b7d321&
-W: https://cdn.discordapp.com/attachments/1535624813325066321/1535624814029438976/Queen_White.png?ex=6a8ae68e&is=6a89950e&hm=4e687464f70092f8c87bd3aaf39ae5136ee108adb78aac5a45c43a73b6ad3b1c&
-
 ---
 
 Piece 003
@@ -41,11 +27,6 @@ Cost 8
 
 - **Castling**, **Promoption**
 - Moves any number of squares orthogonally in one direction.
-
-%%%
-
-B: https://cdn.discordapp.com/attachments/1535625047979331584/1535625048184987689/Rook_Black.png?ex=6a8ae6c6&is=6a899546&hm=5bcfc4a021090fa5e899d87ed1f34cbee4e61e32af098541675ab08b38188276&
-W: https://cdn.discordapp.com/attachments/1535625047979331584/1535625048612667443/Rook_White.png?ex=6a8ae6c6&is=6a899546&hm=f4957e4ac4aad812a08ea58f0bca41732b68169ae7aadb6e816f7461f8d00ee8&
 
 ---
 
@@ -57,11 +38,6 @@ Cost 6
 - **Promoption**
 - Moves any number of squares diagonally in one direction.
 
-%%%
-
-B: https://cdn.discordapp.com/attachments/1535625170792874124/1535625171153723464/Bishop_Black.png?ex=6a8ae6e3&is=6a899563&hm=10bddfe9030dd30177dbca692a9e784d0f220815a1674da690c0f81f37cb7293&
-W: https://cdn.discordapp.com/attachments/1535625170792874124/1535625171665162320/Bishop_White.png?ex=6a8ae6e3&is=6a899563&hm=58fbc47f6e5170e3605d259367553a2f1870e903b12d38e992dc4281937c2735&
-
 ---
 
 Piece 005
@@ -71,11 +47,6 @@ Cost 4
 
 - **Horse**, **Jumping**, **Promoption**
 - Moves to a square diagonally outward from a square orthogonally adjacent to itself.
-
-%%%
-
-B: https://cdn.discordapp.com/attachments/1535625596942426175/1535625597315981403/Knight_Black.png?ex=6a8ae748&is=6a8995c8&hm=d51e9ac8b550d0ab6ca755e257d2313514a4d707c0ad9e6b3cbf6599bdd74ba1&
-W: https://cdn.discordapp.com/attachments/1535625596942426175/1535625597793865838/Knight_White.png?ex=6a8ae749&is=6a8995c9&hm=86df4f584caa5359ee93a76047c6161a14286549cec471ed1e648cfdb52f5265&
 
 ---
 
@@ -92,8 +63,458 @@ Cost 1
 Mechanic Definitions:
 *En Passant*: The turn after a **Tier 1** piece that can move extra squares the first time it is moved moves that way, a piece able to perform *En Passant* that could have captured it had it moved its normal distance can capture it. The capturing piece moves to the square the other piece would have moved to had it moved its normal distance.
 
-%%%
+---
 
-B: https://cdn.discordapp.com/attachments/1535630939764563968/1535630939961561118/Pawn_Black.png?ex=6a8aec42&is=6a899ac2&hm=9588e35558fc09442d9221e8619ea12d2808ddd3cd1d4f23dfe8e17e8c19a1c1&
-W: https://cdn.discordapp.com/attachments/1535630939764563968/1535630940540502097/Pawn_White.png?ex=6a8aec42&is=6a899ac2&hm=15477864e7a6c02c887efa439f7d52373bbdfc62d4d809f6e2ffb49f10b30bc1&
+Piece 007
+**Tinker**
+Tier 1
+Cost 1.5
 
+* **Promotable**
+* Moves like an 006 **Pawn**.
+* Can perform *En Passsant*.
+* At any point during your main turn step: sacrifice this piece.
+
+*En Passant*: See 006 **Pawn**
+
+Notation:
+* `Oops(<location>)` - Sacrificing a **Tinker**
+
+---
+
+Piece 008
+**Captain**
+Emperor
+Cost 8
+
+- **Castling**
+- Moves like an 01 **King**.
+- If an enemy **Emperor** is in check, **Captain** cannot be captured.
+
+---
+
+Piece 009
+**Poisoner**
+Tier 3
+Cost 12
+
+- **Unique**
+- Moves like an 001 **King**.
+- At the beginning of your turn, on **Cooldown** 3, **Uncharged**: choose a non-**Important** enemy piece on the board (different to last turn). That piece is *Poisoned* until your next turn.
+- **Poisoner** is *Healthy*.
+
+*Poisoned*, *Healthy*: *Poisoned* pieces lose all abilities and are *Slowed*. If a piece *Poisons* itself, it remains *Poisoned* until it would normally wear off. A piece that is *Healthy* is not *Poisoned* and can't be *Poisoned*.
+*Slowed*: *Slowed* pieces can move only half their specified movement distance during their turn. *Slowed* pieces with infinite range can only move up to one quarter of the board (rounding up), and pieces with 1-tile movement cannot move if they moved last turn. *Slowed* pieces can only make moves they normally could.
+
+Notation:
+`Psn(enemy piece location)`
+
+---
+
+Piece 010
+**Flaming Queen**
+Tier 3
+Cost 9
+
+- Moves like an 02 **Queen**.
+- After the fifth time **Flaming Queen** moves: sacrifice it.
+
+---
+
+Piece 011
+**Twins**
+Tier 2
+Cost 15
+
+- **Unique**
+- *Multipiece*: 2x Twin
+- Both Twin subpieces must start on symmetrical files
+- Moves like an 002 **Queen**.
+- If 1 Twin subpiece is captured or otherwise removed from play, the other can only move 2 squares per turn.
+- If both Twin subpieces are captured or otherwise removed from play, you lose
+
+*Multipiece*: A multipiece is made up of multiple listed subpieces, but is treated as one piece for the purposes of purchasing during setup. You cannot purchase individual members of the multipiece.
+
+---
+
+Piece 012
+**Fencer**
+Tier 2
+Cost 4
+
+- **Jumping**
+- Moves by performing either of the following, or the first followed by the second:
+  - Moves up to 2 squares forwards.
+  - Moves 1 square down or diagonally down (without capturing or Jumping).
+
+---
+
+Piece 013
+**Burning Blood**
+Relic
+Cost 8
+
+- At the end of your turn: you may choose an allied piece to lose up to 2 stacks of **Damaged**.
+
+---
+
+Piece 014
+**Heir**
+Tier 3
+Cost 15
+
+- **Important**, **Unique**
+- Moves like an 001 **King** twice without capturing.
+- If this is your last **Important** piece, it instead moves like an 001 **King**
+
+---
+
+Piece 015
+**The Ironclad**
+Emperor
+Cost 15
+
+- Your setup includes 013 **Burning Blood** for free.
+- Moves like an 001 **King**.
+- Using your move: An allied piece you control receives 10 stacks of **Damaged** and all enemy pieces 8-way adjacent to it receive 6 stacks of **Damaged**.
+
+---
+
+Piece 016
+**Slider Tile**
+Tile
+Cost 6
+
+- Can only be placed on an empty square in your first 4 ranks.
+- **Unique 2**
+- As your move: swap **Slider Tile** with any of the 4 orthogonally adjacent squares.
+  - Any objects on the swapped squares move to where **Slider Tile** was, and vice versa.
+  - The colour of swapped squares is not affected.
+
+---
+
+Piece 017
+**Space Sentry**
+Tier 2
+Cost 5
+
+- Using your move: capture an enemy piece on your 3rd rank.
+
+---
+
+Piece 018
+**Shiny Rook**
+Tier 2
+Cost 12
+
+- **Castling**
+- Moves like an 003 **Rook**.
+- Twice per game, may capture without moving.
+  - **Emperor**s cannot be captured this way, and instead gain 6 stacks of **Damaged**.
+  - If a piece survives being attacked this way by any means, it is pushed as far backwards away from **Shiny Rook** as possible without going through pieces.
+
+---
+
+Piece 018
+**Dynamite**
+Tier 1
+Costs 3
+- **Promotable**, **Taxed 1** (If support for special taxing amounts is added, this will be changed.)
+- Moves like a 006 **Pawn**, including the double move on first move.
+- Can only move if another friendly piece is 8-way adjacent to it.
+- Can perform *En Passant*, and be captured by *En Passant*.
+- When captured: if the capturing piece is not **Important**, capture it.
+
+---
+
+Piece 020
+**Drunk Rook**
+Tier 2
+Cost 4
+
+- **Castling**
+- Moves like a 003 **Rook**.
+- **Drunk Rook** must move forwards as its first move.
+- If **Drunk Rook** started on the left half of the board, every subsequent move must be in the direction clockwise from its previous move, and similarly for the right half and counterclockwise.
+
+---
+
+Piece 021
+**nwaP**
+Tier 1
+Cost 1.5
+
+- **Promotable**
+- Moves one square diagonally forward (without capturing). The first time you move **nwaP**, you may move it two squares diagonally forward in one direction.
+- Captures one square orthogonally forward.
+- Can perform *En Passant*.
+
+*En Passant*: See 006 **Pawn**
+
+---
+
+Piece 022
+**Minion**
+Tier 1
+Cost 3
+
+- **Promotable**
+- Moves like an 006 **Pawn**.
+- Can perform *En Passant*.
+- When **Minion** is captured, if the square **Minion** started on is empty: create an 006 **Pawn** on it.
+
+*En Passant*: See 006 **Pawn**
+
+---
+
+Piece 023
+**Pikeman**
+Tier 1
+Cost 3
+
+- **Promotable**, **Taxed 1**
+- Moves like an 006 **Pawn**.
+- Can capture (without moving) exactly two squares forward.
+
+---
+
+Piece 024
+**Nuclear Pawn**
+Tier 1
+Cost 1
+
+- Moves like an 006 **Pawn**.
+- When **Nuclear Pawn** reaches the back rank: every piece within a 5x5 centered on it is instantly captured.
+
+---
+
+Piece 025
+**Bouba**
+Tier 2
+Cost 7
+
+- **Promoption**
+- Moves like an 005 **Knight** *(without **Jumping**)* or one square orthogonally.
+
+---
+
+Piece 026
+**Kiki**
+Tier 2
+Cost 7
+
+- **Promoption**
+- Moves exactly two squares in any one direction or one square diagonally.
+
+---
+
+Piece 027
+**Traffic Cone**
+Tier 1
+Cost 2
+
+- **Unique 3**, **Taxed 1**
+- **Traffic Cone** can be placed in any empty square on your 3rd or 4th rank.
+- If a non-**Jumping** piece would move through any of the squares 8-way adjacent to **Traffic Cone**, it instead stops on that square.
+
+---
+
+Piece 028
+**Blacksmith**
+Relic
+Cost 7
+
+- Whenever you put an enemy **Emperor** into check, you may create a 007 **Tinker** on your 2nd rank.
+- If there are multiple allied 007 **Tinker**s due to this, remove one from the board.
+
+---
+
+Piece 029
+**Soldier**
+Tier 1
+Cost 2
+
+- **Promotable**, **Taxed 1**
+- Moves like an 006 **Pawn**.
+- Can perform *En Passant*.
+- Cannot be captured by any **Emperor**, **Tier 3**, or **Important** piece.
+
+---
+
+Piece 030
+**Crab**
+Tier 2
+Cost 8
+
+- **Castling**, **Promoption**
+- Moves one space forward or backwards.
+- Moves any number of squares in one horizontal direction once or twice.
+
+---
+
+Piece 031
+**The Claw**
+Tier 2
+Cost 8
+
+- **Unique**
+- At the beginning of the game: choose a **Tier 2** or **Tier 3**  non-**Important** piece in your opponent's setup to be the Obsession.
+  - If your opponent has no **Tier 2** or **Tier 3** non-**Important** pieces, you may choose a **Tier 1** non-**Important** piece instead.
+  - If your opponent has no **Tier 1**, **Tier 2**, or **Tier 3** non-**Important** pieces, you may choose any **Important** piece instead.
+- Moves 1 square diagonally without capturing.
+- If the Obsession has remained within an orthogonal direction of **The Claw** since the end of your last turn, **The Claw** may instead move to instantly capture the Obsession.
+  - Any pieces in the way receive 4 stacks of **Damaged**.
+  - **The Claw** cannot be captured until your next move.
+  - After your next move, choose another piece to be the Obsession.
+    - The same rules apply as when choosing at the beginning of the game.
+  - This cannot be done in the first 3 cycles of the game.
+
+---
+
+Piece 032
+**The 90s**
+Tier 1
+Cost 5
+
+- **Promotable**
+- Moves 1 square horizontally, 3 squares forward, and 1 square in the opposite horizontal direction, all without capturing.
+- Moves 1 square horizontally to capture.
+
+---
+
+Piece 033
+**KINGOFADHD**
+Emperor
+Cost 6
+
+- Captures like an 001 **King**.
+- At the end of your turn, if you haven't moved **KINGOFADHD** this turn: move it like an 001 **King** without capturing. If you can't, you lose the game.
+
+---
+
+Piece 034
+**Communism**
+Relic
+Cost 10
+
+- Your setup can't have an **Emperor**.
+- All your **Tier 1** pieces are **Important** and *Slowed*.
+
+Mechanic Definitions:
+*Slowed*: See 009 **Poisoner**.
+
+---
+
+Piece 035
+**Possessive Mask**
+Emperor
+Cost 8
+
+- **Possessive Mask** is a token that is always on an allied "Host" piece, instead of its own independent piece.
+  - When the Host is removed from the board: **Possessive Mask** is **Destroyed**.
+  - **Possessive Mask**'s Host during setup must be a **Tier 3** piece.
+  - **Possessive Mask** cannot be targeted or affected by any ability by any means, with all effects affecting the Host as per usual.
+  - The Host is **Important**, loses all abilities and movement, and instead may move like an 001 **King**.
+- As your move: swap **Possessive Mask** to an allied piece orthogonally adjacent to the Host.
+
+---
+
+Piece 036
+**Meltdown**
+Relic
+Cost 7
+
+- At the end of your turn: you may choose an enemy piece to gain 4 stacks of **Damaged**.
+  - If you do this, you must also choose a square in your furthest back rank to be removed, with any pieces (including **Tiles**) on it being **Destroyed**.
+  - You must choose the enemy pieces in the following priority order:
+    - **Tier 1** non-**Important** pieces
+    - **Tier 2** non-**Important**  pieces
+    - **Tier 3** non-**Important** pieces
+    - **Important** pieces
+  - Enemy **Promotable** pieces promote on the your furthest back square in each file, which may not all be on the same rank.
+  - If you have not done this in 3 cycles, you must do this.
+
+---
+
+Piece 037
+**Imp**
+Emperor
+Cost 8
+
+- **Castling**
+- Moves like an 001 **King**.
+- As your move: choose an allied **Tier 2** piece. It becomes an 001 **King**, then sacrifice **Imp**.
+
+---
+
+Piece 038
+**Devil's Advocate**
+Tier 3
+Cost 10
+
+- **Unique**
+- Moves like an 001 **King**.
+- At the beginning of your turn, on **Cooldown** 3, **Uncharged**: choose an allied non-**Important** piece (different to last turn). It can't be captured until your next turn and can't move this turn.
+
+---
+
+Piece 039
+**Psychokingetic**
+Emperor
+Cost 5
+
+- **Castling**
+- As your move: move any non-**Tier 1** piece, including **Psychokingetic**, like an 001 **King**.
+  - You cannot choose the same piece two turns in a row.
+
+---
+
+Piece 040
+**Witch**
+Tier 3
+Cost 10
+
+- **Unique**, **Promoption**
+- Moves like an 001 **King**.
+- As your move: choose a square. Until either **Witch** is removed from the board or you use this ability again, the first non-**Important** piece to end its move on that square is captured.
+
+---
+
+Piece 041
+**Stapler**
+Relic
+Cost 5
+
+- At the beginning of the game: choose a file, **Stapler** affects the two middle square of that file.
+  - If there are an odd number of ranks, choose one side of the middle square of that file to be affected alongside the middle square.
+  - You may not choose a file that has any pieces on the affected tiles.
+- The two squares **Stapler** affects are considered 1 square for all purposes.
+  - As with any individual square, the joined square may only contain 1 piece unless specified otherwise.
+  - Orthogonal adjacencies are the orthogonal adjacencies of either square (excluding the joined squares).
+  - Diagonal adjacencies are the diagonal adjacencies of either square that aren't orthogonal adjacencies.
+  - The joined square is considered to be the colours of both of its component squares.
+
+Notation:
+The joined square is referred to as `([location1][location2])`, e.g. `(e4e5)`.
+
+---
+
+Piece 042
+**Curseweaver**
+Tier 2
+Cost 5
+
+- **Unique**
+- At the beginning of your turn: choose a non-**Important** non-**Tier 3** enemy piece to gain 1 stack of **Damaged**.
+- If your opponent doesn't control any non-**Important** non-**Tier 3** pieces, Curseweaver can move like an 001 King.
+
+---
+
+Piece 043
+**Spike Trap**
+Tile
+Cost 3
+
+- Can only be placed on an empty square in your first 4 ranks.
+ - **Unique 3**, **Taxed 1**
+- Whenever a non-**Jumping** piece moves through this tile or a piece ends their move on this tile: they take 4 stacks of **Damaged**.

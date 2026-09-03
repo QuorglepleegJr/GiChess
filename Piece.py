@@ -101,7 +101,7 @@ class Piece:
             if issubclass(type(module), AttributeModule) \
                 and not issubclass(type(module), InternalAttributeModule):
 
-                hashables.extend([(att, module.attributes[att]) for att in module.attributes.keys()])
+                hashables.append(frozenset([(att, module.attributes[att]) for att in module.attributes.keys()]))
 
-        return hash((h for h in hashables))
+        return hash(frozenset(hashables))
         

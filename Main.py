@@ -58,6 +58,7 @@ if __name__ == "__main__":
 
     win_text = None
     win_font = pygame.freetype.Font(None)
+    reason_text = [""]
 
     while running:
 
@@ -105,41 +106,100 @@ if __name__ == "__main__":
 
             if win_text is None:
             
-                match b.game_ended:
+                match b.game_ended[0]:
 
                     case "B":
 
-                        win_text = "Black Wins!"
+                        win_text = "Black Wins"
 
                     case "W":
 
-                        win_text = "White Wins!"
+                        win_text = "White Wins"
 
                     case "N":
 
-                        win_text = "Draw!"
+                        win_text = "Draw"
 
                     case _:
 
                         win_text = "Error"
 
+                reason_count = len(b.game_ended[1])
+                non_newline_reason_count = len([r for r in b.game_ended[1] if r[-1] != ":"])
+                line_cap = 30
+                line_no = 0
+                
+                for i in range(reason_count):
+
+                    if i <= reason_count - non_newline_reason_count:
+                        
+                        reason_text[line_no] += "By "
+
+                    if i == reason_count - 1 and reason_count > 1:
+
+                        reason_text[line_no] += "and "
+
+                    reason_text[line_no] += b.game_ended[1][i]
+                    
+                    if reason_text[line_no][-1] != ":" and i < reason_count - 1:
+
+                        if non_newline_reason_count == 2:
+
+                            reason_text[line_no] += " "
+
+                        else:
+
+                            reason_text[line_no] += ", "
+                    
+                    if len(reason_text[line_no]) >= line_cap or reason_text[line_no][-1] == ":" \
+                        and i < reason_count - 1:
+
+                        line_no += 1
+                        reason_text.append("")
+
+
                 win_text = win_font.render(win_text, fgcolor = (238, 238, 210), size = 80)
 
-            text_rect = win_text[1]
-            text_rect.center = screen.get_rect().center
+                reason_text = [win_font.render(l, fgcolor = (238, 238, 210), size = 45) for l in reason_text]
+
+            padding = 10
+            text_rects = [win_text[1]]
+            text_rects.extend([r[1] for r in reason_text])
+            height = sum([r.size[1] for r in text_rects]) + (padding * len(text_rects) - 1)
+            width = max([r.size[0] for r in text_rects])
+            left = 400 - width / 2
+            top = 400 - height / 2
+            rects = [pygame.Rect((0, 0), text_rects[i].size)for i in range(len(text_rects))]
+
+            for i in range(len(text_rects)):
+
+                if i == 0:
+
+                    prev_bottom = top
+
+                else:
+
+                    prev_bottom = rects[i-1].bottom
+
+                rects[i].center = (400, prev_bottom + padding + rects[i].size[1] / 2)
 
             background_extra = 20
-            bg_rect = [text_rect.left - background_extra, text_rect.top - background_extra, 
-                text_rect.size[0] + 2 * background_extra, text_rect.size[1] + 2 * background_extra]
-            pygame.draw.rect(screen, (118, 150, 86),
-                [text_rect.left - background_extra, text_rect.top - background_extra, 
-                text_rect.size[0] + 2 * background_extra, text_rect.size[1] + 2 * background_extra])
+            bg_rect = [left - background_extra, top - background_extra, 
+                width + 2 * background_extra, height + 2 * background_extra]
+            pygame.draw.rect(screen, (118, 150, 86), bg_rect)
 
             pygame.draw.rect(screen, (128, 50, 50),
-                            [text_rect.left - background_extra, text_rect.top - background_extra, 
-                            text_rect.size[0] + 2 * background_extra, text_rect.size[1] + 2 * background_extra], width = 10)
+                            bg_rect, width = 10)
 
-            screen.blit(win_text[0], text_rect)
+            for i in range(len(rects)):
+
+                if i == 0:
+
+                    screen.blit(win_text[0], rects[i])
+
+                else:
+
+                    screen.blit(reason_text[i-1][0], rects[i])
             
 
         for event in pygame.event.get():
@@ -161,11 +221,11 @@ if __name__ == "__main__":
                     pos = pygame.mouse.get_pos()
                     clicked_square = Utility.get_square_of_pos(pos)
 
-                    if selected_piece is None:
+                    clicked_piece_sprites = [s for s in sprite_piece.keys() if s.rect.collidepoint(pos)]
+                    moveable_sprites = [s for s in clicked_piece_sprites 
+                        if sprite_piece[s].check_condition("ismovable", clicked_square, b)]
 
-                        clicked_piece_sprites = [s for s in sprite_piece.keys() if s.rect.collidepoint(pos)]
-                        moveable_sprites = [s for s in clicked_piece_sprites 
-                            if sprite_piece[s].check_condition("ismovable", clicked_square, b)]
+                    if selected_piece is None:
 
                         if moveable_sprites:
 
@@ -191,11 +251,24 @@ if __name__ == "__main__":
                             b.move_made(selected_piece, starting_square, 
                                 (clicked_square[0], clicked_square[1], valid_squares[clicked_square]))
                             sprite_piece, piece_sprite, piece_group = update_sprites(b)
-                        
-                        selected_piece = None
-                        selected_sprite = None
-                        starting_square = None
-                        valid_squares = {}
+
+
+                        if moveable_sprites and not clicked_square in valid_squares.keys():
+
+                            # For now,just display the first one - in future, pop up menu for all if multiple
+                            selected_sprite = moveable_sprites[0]
+                            selected_piece = sprite_piece[selected_sprite]
+                            starting_square = Utility.get_square_of_pos(selected_sprite.rect.center)
+
+                            valid_moves = selected_piece.get_legal_moves(clicked_square, b)
+                            valid_squares = {(m[0], m[1]) : m[2] for m in valid_moves}
+
+                        else:
+
+                            selected_piece = None
+                            selected_sprite = None
+                            starting_square = None
+                            valid_squares = {}
 
                 elif not mouse_button_held and pygame.mouse.get_pressed()[2]:
 
