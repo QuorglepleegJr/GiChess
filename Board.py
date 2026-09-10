@@ -5,6 +5,36 @@ class Board:
 
     basic_setup = "P3P5P4P2P1P4P5P3/P6x8/////p6x8/p3p5p4p2p1p4p5p3"
 
+    def from_simulated_position_update(self, piece, new_position, duplicate = False):
+
+        new_board = Board()
+
+        new_board.pieces = {square: [x for x in self.pieces[square]] for square in self.pieces.keys()}
+        new_board.previous_move = self.previous_move
+        new_board.previous_move_enpassantable = self.previous_move_enpassantable
+        new_board.enpassant_squares = self.enpassant_squares
+        new_board.square_usable_funcs = self.square_usable_funcs
+        new_board.square_blocks_movement_funcs = self.square_blocks_movement_funcs
+        new_board.game_lose_functions = self.game_lose_functions
+        new_board.game_win_functions = self.game_win_functions
+        new_board.to_move = self.to_move
+        new_board.game_ended = self.game_ended
+        new_board.game_state_hashes = self.game_state_hashes
+
+        old_square, piece_pair = self.locate_piece(piece)
+
+        if not old_square is None and not duplicate:
+
+            new_board.pieces[old_square].remove(piece_pair)
+
+        if not new_position in new_board.pieces.keys():
+
+            new_board.pieces[new_position] = []
+
+        new_board.pieces[new_position].append(piece_pair)
+
+        return new_board
+
     def __init__(self, setup = "///////"):
 
         self.pieces = Board.parse_setup_string(setup)
@@ -16,6 +46,9 @@ class Board:
 
         self.previous_move = None
         # Format is list of (Piece, [squares moved from/through/to in order])
+        self.previous_move_enpassantable = False
+        self.enpassant_squares = {}
+        # Format is square: list of pieces
 
         self.square_usable_funcs = []
         self.square_blocks_movement_funcs = []
@@ -147,7 +180,7 @@ class Board:
 
         return square[0] >= 0 and square[0] < 8 and square[1] >= 0 and square[1] < 8
 
-    def capture_piece(self, piece, square, culprit):
+    def capture_piece(self, piece, square, culprit, piece_on_square = True):
 
         # On capture format: (piece capturing, square, board) -> is the piece captured
         # If multiple, one non-capture overrides all captures
@@ -160,8 +193,16 @@ class Board:
 
         if is_captured:
 
-            piece_pair = [p for p in self.pieces[square] if p[1] == piece][0]
-            self.pieces[square].remove(piece_pair)
+            if not piece_on_square:
+
+                new_square, piece_pair = [(s, p) for s in self.pieces.keys() for p in self.pieces[s] if p[1] == piece][0]
+
+                self.pieces[new_square].remove(piece_pair)
+
+            else:
+
+                piece_pair = [p for p in self.pieces[square] if p[1] == piece][0]
+                self.pieces[square].remove(piece_pair)
 
     def square_usable(self, square):
 
@@ -192,6 +233,9 @@ class Board:
         return blocks
 
     def move_made(self, piece, starting_square, move):
+
+        self.previous_move_enpassantable = False
+        self.enpassant_squares = {}
 
         piece_pair = [p for p in self.pieces[starting_square] if p[1] == piece][0]
 
@@ -347,6 +391,30 @@ class Board:
             for piece_pair in self.pieces[square]:
 
                 piece_pair[1].run_trigger(trigger, square, self, culprit)
+
+    def enable_enpassant(self, piece, squares):
+
+        self.previous_move_enpassantable = True
+
+        for square in squares:
+
+            if not square in self.enpassant_squares.keys():
+
+                self.enpassant_squares[square] = []
+
+            self.enpassant_squares[square].append(piece)
+
+    def locate_piece(self, piece):
+
+        for square in self.pieces.keys():
+
+            for piece_pair in self.pieces[square]:
+
+                if piece_pair[1] == piece:
+
+                    return square, piece_pair
+
+        return None, None
 
     def __hash__(self):
 

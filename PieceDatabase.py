@@ -85,7 +85,7 @@ class PieceDatabase:
                 (True, [(-1, 1, 1, 2, True, lambda n: False)]),
             ]),
             FirstMoveModule([
-                (True, [(0, 1, 2, 0, True, lambda n: n != 2)]),
+                (True, [(0, 1, 2, 0, True, lambda n: n != 2, True, [(0, 1)])]),
             ]),
             EnPassantModule(),
             AttributeModule(tier = "1", promotable = True)

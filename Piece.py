@@ -21,11 +21,12 @@ class Piece:
         self.colour = colour
         self.modules = modules
         self.moves = 0
+        self.damaged = 0
 
     def get_legal_moves(self, square, board):
 
         valid_moves = []
-        # Move format is (square x, square y, function to run as part of move _ arguments)
+        # Move format is (square x, square y, (functions to run as part of move & arguments))
         invalid_moves = []
         # Invalid moves are formatted (square x, square y, condition to check (argument of the move))
 
@@ -44,7 +45,7 @@ class Piece:
 
                     valid_moves.remove(move)
 
-        return valid_moves
+        return list(set(valid_moves))
 
     def get_attribute_values(self, attribute):
 

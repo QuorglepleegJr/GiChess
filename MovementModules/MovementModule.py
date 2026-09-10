@@ -75,7 +75,6 @@ class MovementModule:
                     resolution_stack.append((current_resolution[0], new_square, current_resolution[2] + 1))
                     resolution_stack.append((current_resolution[0] + 1, new_square, 1))
                     
-        
         return legal_moves
                     
     def get_illegal_moves(self, square, colour, board, piece):
