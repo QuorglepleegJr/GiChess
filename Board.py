@@ -5,21 +5,28 @@ class Board:
 
     basic_setup = "P3P5P4P2P1P4P5P3/P6x8/////p6x8/p3p5p4p2p1p4p5p3"
 
-    def from_simulated_position_update(self, piece, new_position, duplicate = False):
+    def copy(self):
 
         new_board = Board()
-
+        
         new_board.pieces = {square: [x for x in self.pieces[square]] for square in self.pieces.keys()}
         new_board.previous_move = self.previous_move
         new_board.previous_move_enpassantable = self.previous_move_enpassantable
         new_board.enpassant_squares = self.enpassant_squares
-        new_board.square_usable_funcs = self.square_usable_funcs
-        new_board.square_blocks_movement_funcs = self.square_blocks_movement_funcs
-        new_board.game_lose_functions = self.game_lose_functions
-        new_board.game_win_functions = self.game_win_functions
+        new_board.banned_castling = [x for x in self.banned_castling]
+        new_board.square_usable_funcs = [x for x in self.square_usable_funcs]
+        new_board.square_blocks_movement_funcs = [x for x in self.square_blocks_movement_funcs]
+        new_board.game_lose_functions = [x for x in self.game_lose_functions]
+        new_board.game_win_functions = [x for x in self.game_win_functions]
         new_board.to_move = self.to_move
         new_board.game_ended = self.game_ended
         new_board.game_state_hashes = self.game_state_hashes
+
+        return new_board
+
+    def from_simulated_position_update(self, piece, new_position, duplicate = False):
+
+        new_board = self.copy()
 
         old_square, piece_pair = self.locate_piece(piece)
 
@@ -49,6 +56,7 @@ class Board:
         self.previous_move_enpassantable = False
         self.enpassant_squares = {}
         # Format is square: list of pieces
+        self.banned_castling = []
 
         self.square_usable_funcs = []
         self.square_blocks_movement_funcs = []
@@ -60,7 +68,10 @@ class Board:
         self.to_move = "W"
         self.game_ended = None
 
-        self.game_state_hashes = {hash(self): 1}
+        self.game_state_hashes = {}
+
+        # Must be done last
+        self.game_state_hashes[hash(self)] = 1
 
     def parse_setup_string(setup):
 
@@ -415,6 +426,59 @@ class Board:
                     return square, piece_pair
 
         return None, None
+
+    def check_check(self, colour, specific = None):
+
+        print("Checking check")
+
+        if specific is None:
+
+            emperors = [p[1] for s in self.pieces.keys() for p in self.pieces[s] 
+                if "E" in p[1].get_attribute_values("tier") and p[1].colour == colour]
+
+        else:
+
+            emperors = specific
+
+        all_legal_other_colour_moves = []
+
+        for square in self.pieces.keys():
+
+            for piece_pair in self.pieces[square]:
+
+                if piece_pair[1].colour != colour:
+
+                    all_legal_other_colour_moves.extend(piece_pair[1].get_legal_moves(square, self))
+
+        print("Done checking check")
+
+        for move in all_legal_other_colour_moves:
+
+            for func in move[2]:
+
+                if func[0] == self.capture_piece and func[1] in emperors:
+
+                    return True
+
+        return False
+
+    def relocate_piece(self, piece, new_position):
+
+        old_square, piece_pair = self.locate_piece(piece)
+
+        self.pieces[old_square].remove(piece_pair)
+
+        if not new_position in self.pieces.keys():
+
+            self.pieces[new_position] = []
+
+        self.pieces[new_position].append(piece_pair)
+
+    def remove_piece(self, piece):
+
+        old_square, piece_pair = self.locate_piece(piece)
+
+        self.pieces[old_square].remove(piece_pair)
 
     def __hash__(self):
 

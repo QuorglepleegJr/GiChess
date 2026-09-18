@@ -41,7 +41,7 @@ class PieceDatabase:
                 (True, [(0, -1, -1, 1, True, lambda n: False)]),
                 (True, [(1, -1, -1, 1, True, lambda n: False)]),
             ]),
-            AttributeModule(tier = "3", castling = True, promoption = True)
+            AttributeModule(tier = "3", promoption = True)
         ],
         # Rook
         3 : [
@@ -51,7 +51,7 @@ class PieceDatabase:
                 (True, [(-1, 0, -1, 1, True, lambda n: False)]),
                 (True, [(0, -1, -1, 1, True, lambda n: False)]),
             ]),
-            AttributeModule(tier = "2", promoption = True)
+            AttributeModule(tier = "2", promoption = True, castling = True)
         ],
         # Bishop
         4 : [
